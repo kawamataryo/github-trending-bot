@@ -1,0 +1,28 @@
+{
+  "name": "github_trending_bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "workspaces": ["functions"],
+  "scripts": {
+    "lint": "npm run lint -w funcitons",
+    "emulator": "firebase emulators: start",
+    "build": "npm run build -w funcitons",
+    "serve": "npm run serve -w funcitons",
+    "deploy": "npm run deploy -w funcitons"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kawamataryo/github_trending_bot.git"
+  },
+  "author": "Ryo Kawamata <ba068082@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kawamataryo/github_trending_bot/issues"
+  },
+  "homepage": "https://github.com/kawamataryo/github_trending_bot#readme",
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
