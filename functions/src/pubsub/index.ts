@@ -75,6 +75,10 @@ const tweetFrontendTrends = async () => {
 export const tweetTrend = functions.pubsub
     .schedule("every 30 minutes")
     .onRun(async (_context) => {
-      await tweetAllLanguagesTrends();
-      await tweetFrontendTrends();
+      try {
+        await tweetAllLanguagesTrends();
+        await tweetFrontendTrends();
+      } catch (e) {
+        console.log(e)
+      }
     });
