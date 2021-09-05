@@ -6,5 +6,6 @@ export type GHTrend = {
   starCount: string;
   forkCount: string;
   todayStarCount: string;
+  ownersTwitterAccount: string;
   url: string;
 };

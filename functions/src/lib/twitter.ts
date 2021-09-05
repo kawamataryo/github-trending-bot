@@ -9,10 +9,12 @@ const truncateText = (description: string, maxLength: number) => {
 
 const createTweetText = (trend: GHTrend): string => {
   return `
-📦 ${trend.repository}
+📦 ${trend.repository}${
+    trend.ownersTwitterAccount ? `\n👤 ${trend.ownersTwitterAccount}\n` : ""
+}
 ⭐ ${trend.starCount} (+${trend.todayStarCount})
 🗒 ${trend.language}
-${trend.description ? `\n${truncateText(trend.description, 90)}\n` : ""}
+${trend.description ? `\n${truncateText(trend.description, 85)}\n` : ""}
 ${trend.url}
 `.trim();
 };
