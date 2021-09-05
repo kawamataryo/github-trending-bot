@@ -15,7 +15,7 @@ admin.initializeApp();
 const db = admin.firestore();
 
 export const tweetTrend = functions.pubsub
-    .schedule("every 1 hours")
+    .schedule("every 30 minutes")
     .onRun(async (_context) => {
       const collectionRef = db.collection("v1").doc("trends").collection("all");
 
@@ -35,4 +35,15 @@ export const tweetTrend = functions.pubsub
         await tweetFromTrend(doc.data() as GHTrend);
         await updateTweetedFlag(doc, true);
       }
+      return;
     });
+
+export const scrappingGitHubTrends = functions.https.onRequest(
+    async (_req, res) => {
+      const collectionRef = db.collection("v1").doc("trends").collection("all");
+      const trends = await new GHTrendScraper().scrapping();
+      await bulkInsertTrends(collectionRef, shuffle(trends));
+
+      res.send(`${trends.length} trends repositories inserted.`);
+    }
+);

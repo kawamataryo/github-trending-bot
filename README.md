@@ -2,6 +2,7 @@
 
 A Twitter bot ([@GitHubTrending_](https://twitter.com/GitHubTrending_)) to tweet trending repositories from GitHub.
 
+<img width="598" alt="Screen Shot 2021-09-05 at 9 13 47" src="https://user-images.githubusercontent.com/11070996/132110924-4dda66d8-2264-4fcb-91c6-d4a6ad2c4d92.png">
 
 ## ✨ Features
 
