@@ -1,4 +1,4 @@
-# GitHub Trending bot
+# GitHub Trending Bot
 
 A Twitter bot to tweet [trending repositories](https://github.com/trending) from GitHub.
 
