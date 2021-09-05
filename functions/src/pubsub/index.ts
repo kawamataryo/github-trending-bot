@@ -79,6 +79,6 @@ export const tweetTrend = functions.pubsub
         await tweetAllLanguagesTrends();
         await tweetFrontendTrends();
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
     });
