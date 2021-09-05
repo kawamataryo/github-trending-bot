@@ -3,10 +3,8 @@ import {parse, HTMLElement} from "node-html-parser";
 import {GHTrend} from "../types/types";
 
 export class GHTrendScraper {
-  constructor(private params = "") {}
-
-  async scrapping(): Promise<GHTrend[]> {
-    const res = await got.get(`https://github.com/trending${this.params}`);
+  static async scraping(params = ""): Promise<GHTrend[]> {
+    const res = await got.get(`https://github.com/trending${params}`);
     const dom = parse(res.body);
     const rows = dom.querySelectorAll(".Box-row");
 
