@@ -8,8 +8,8 @@ A Twitter bot to tweet [trending repositories](https://github.com/trending) from
 
 ## ✨ Features
 
-- Crawl GitHub Trending daily to get repository information.
-- Tweets trending projects every 30 munits.
+- Crawl [GitHub Trending](https://github.com/trending) daily to get repository information.
+- Tweets trending repository every 30 minutes.
 - Exclude repositories that were tweeted within a week.
 
 ## 📃 License
