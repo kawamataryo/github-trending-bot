@@ -2,8 +2,9 @@ import TwitterApi from "twitter-api-v2";
 import * as functions from "firebase-functions";
 import {GHTrendScraper} from "../lib/ghTrendScraper";
 import {bulkInsertTrends} from "../lib/firestore";
-import {shuffle} from "../lib/shuffle";
-import {isUpdateTime, tweetRepository} from "./utils";
+import {isUpdateTime, shuffle} from "../lib/utils";
+import {tweetRepository} from "../lib/twitter";
+import * as admin from "firebase-admin";
 
 const twitterClient = new TwitterApi({
   appKey: functions.config().twitter.frontend_app_key,
@@ -12,19 +13,19 @@ const twitterClient = new TwitterApi({
   accessSecret: functions.config().twitter.frontend_access_secret,
 });
 
-export const tweetFrontendTrends = async (
-    db: FirebaseFirestore.Firestore
-): Promise<void> => {
-  const collectionRef = db
-      .collection("v1")
-      .doc("trends")
-      .collection("frontend");
+const db = admin.firestore();
+const collectionRef = db.collection("v1").doc("trends").collection("frontend");
 
+export const updateFrontendTrends = async (): Promise<void> => {
+  const jsTrends = await GHTrendScraper.scraping("/javascript");
+  const tsTrends = await GHTrendScraper.scraping("/typescript");
+  await bulkInsertTrends(collectionRef, shuffle([...jsTrends, ...tsTrends]));
+};
+
+export const tweetFrontendTrends = async (): Promise<void> => {
   // update trends data at several times a day.
   if (isUpdateTime()) {
-    const jsTrends = await GHTrendScraper.scraping("/javascript");
-    const tsTrends = await GHTrendScraper.scraping("/typescript");
-    await bulkInsertTrends(collectionRef, shuffle([...jsTrends, ...tsTrends]));
+    await updateFrontendTrends();
     console.info("Update frontend repositories collections");
   }
 

@@ -1,3 +1,10 @@
+import * as dayjs from "dayjs";
+
+export const isUpdateTime = (): boolean => {
+  const datetime = dayjs();
+  return datetime.hour() % 2 === 0 && datetime.minute() <= 30;
+};
+
 export const shuffle = <T>(array: T[]): T[] => {
   const out = Array.from(array);
   for (let i = out.length - 1; i > 0; i--) {

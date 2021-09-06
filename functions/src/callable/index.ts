@@ -1,48 +1,34 @@
 import * as functions from "firebase-functions";
-import {GHTrendScraper} from "../lib/ghTrendScraper";
-import {bulkInsertTrends} from "../lib/firestore";
-import {shuffle} from "../lib/shuffle";
-import * as admin from "firebase-admin";
-import {tweetAllLanguagesTrends} from "../pubsub/tweetAllLanguagesTrends";
-import {tweetFrontendTrends} from "../pubsub/tweetFrontendTrends";
-
-const db = admin.firestore();
+import {
+  tweetAllLanguagesTrends,
+  updateAllLanguagesTrends,
+} from "../usecase/allLanguages";
+import {tweetFrontendTrends, updateFrontendTrends} from "../usecase/frontend";
 
 export const scrappingGitHubTrends = functions.https.onRequest(
     async (_req, res) => {
-    // All Languages
-      const allLanguagesCollectionRef = db
-          .collection("v1")
-          .doc("trends")
-          .collection("all");
-      const trends = await GHTrendScraper.scraping();
-      await bulkInsertTrends(allLanguagesCollectionRef, shuffle(trends));
-
-      // JavaScript and TypeScript
-      const jsAndTsCollectionRef = db
-          .collection("v1")
-          .doc("trends")
-          .collection("frontend");
-      const jsTrends = await GHTrendScraper.scraping("/javascript");
-      const tsTrends = await GHTrendScraper.scraping("/typescript");
-      await bulkInsertTrends(
-          jsAndTsCollectionRef,
-          shuffle([...jsTrends, ...tsTrends])
-      );
-
-      res.send("ok");
+      try {
+        await updateAllLanguagesTrends();
+        await updateFrontendTrends();
+      } catch (e) {
+        console.error(e);
+        res.send(`error: ${JSON.stringify(e)}`);
+        return;
+      }
+      res.send("success");
     }
 );
 
 export const tweetGitHubTrends = functions.https.onRequest(
     async (_req, res) => {
       try {
-        await tweetAllLanguagesTrends(db);
-        await tweetFrontendTrends(db);
+        await tweetAllLanguagesTrends();
+        await tweetFrontendTrends();
       } catch (e) {
         console.error(e);
+        res.send(`error: ${JSON.stringify(e)}`);
+        return;
       }
-
-      res.send("ok");
+      res.send("success");
     }
 );
