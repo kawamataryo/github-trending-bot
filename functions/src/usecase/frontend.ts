@@ -1,9 +1,9 @@
 import TwitterApi from "twitter-api-v2";
 import * as functions from "firebase-functions";
-import {GHTrendScraper} from "../lib/ghTrendScraper";
-import {bulkInsertTrends} from "../lib/firestore";
-import {isUpdateTime, shuffle} from "../lib/utils";
-import {tweetRepository} from "../lib/twitter";
+import { GHTrendScraper } from "../lib/ghTrendScraper";
+import { bulkInsertTrends } from "../lib/firestore";
+import { isUpdateTime, shuffle } from "../lib/utils";
+import { tweetRepository } from "../lib/twitter";
 import * as admin from "firebase-admin";
 
 const twitterClient = new TwitterApi({

@@ -1,6 +1,6 @@
 import got from "got";
-import {parse, HTMLElement} from "node-html-parser";
-import {GHTrend} from "../types/types";
+import { parse, HTMLElement } from "node-html-parser";
+import { GHTrend } from "../types/types";
 
 export class GHTrendScraper {
   static async scraping(params = ""): Promise<GHTrend[]> {
@@ -9,28 +9,28 @@ export class GHTrendScraper {
     const rows = dom.querySelectorAll(".Box-row");
 
     return await Promise.all(
-        rows.map(async (row) => {
-          const {owner, repository} = GHTrendScraper.getOwnerAndRepoName(row);
-          const {description} = GHTrendScraper.getDescription(row);
-          const {starCount} = GHTrendScraper.getStarCount(row);
-          const {forkCount} = GHTrendScraper.getForkCount(row);
-          const {todayStarCount} = GHTrendScraper.getTodayStarCount(row);
-          const {language} = GHTrendScraper.getLanguage(row);
-          const {ownersTwitterAccount} =
+      rows.map(async (row) => {
+        const { owner, repository } = GHTrendScraper.getOwnerAndRepoName(row);
+        const { description } = GHTrendScraper.getDescription(row);
+        const { starCount } = GHTrendScraper.getStarCount(row);
+        const { forkCount } = GHTrendScraper.getForkCount(row);
+        const { todayStarCount } = GHTrendScraper.getTodayStarCount(row);
+        const { language } = GHTrendScraper.getLanguage(row);
+        const { ownersTwitterAccount } =
           await GHTrendScraper.getOwnersTwitterAccount(owner);
 
-          return {
-            owner,
-            repository,
-            language: language ?? "",
-            description: description ?? "",
-            starCount: starCount ?? "",
-            forkCount: forkCount ?? "",
-            todayStarCount: todayStarCount ?? "",
-            ownersTwitterAccount: ownersTwitterAccount ?? "",
-            url: `https://github.com/${owner}/${repository}`,
-          };
-        })
+        return {
+          owner,
+          repository,
+          language: language ?? "",
+          description: description ?? "",
+          starCount: starCount ?? "",
+          forkCount: forkCount ?? "",
+          todayStarCount: todayStarCount ?? "",
+          ownersTwitterAccount: ownersTwitterAccount ?? "",
+          url: `https://github.com/${owner}/${repository}`,
+        };
+      })
     );
   }
 
@@ -52,7 +52,7 @@ export class GHTrendScraper {
     const res = await got.get(`https://github.com/${owner}`);
     const dom = parse(res.body);
     const ownersTwitterAccount = dom
-        .querySelector(".vcard-details a[href^=\"https://twitter.com\"]")
+      .querySelector(".vcard-details a[href^=\"https://twitter.com\"]")
       ?.innerText.trim();
     return {
       ownersTwitterAccount,
@@ -68,7 +68,7 @@ export class GHTrendScraper {
 
   private static getStarCount(dom: HTMLElement) {
     const starCount = dom
-        .querySelector("a[href$=\"stargazers\"]")
+      .querySelector("a[href$=\"stargazers\"]")
       ?.innerText.trim();
     return {
       starCount,
@@ -77,7 +77,7 @@ export class GHTrendScraper {
 
   private static getForkCount(dom: HTMLElement) {
     const forkCount = dom
-        .querySelector("a[href*=\"network/members\"]")
+      .querySelector("a[href*=\"network/members\"]")
       ?.innerText.trim();
     return {
       forkCount,
@@ -93,7 +93,7 @@ export class GHTrendScraper {
 
   private static getLanguage(dom: HTMLElement) {
     const language = dom
-        .querySelector("[itemprop=\"programmingLanguage\"]")
+      .querySelector("[itemprop=\"programmingLanguage\"]")
       ?.innerText.trim();
     return {
       language,
