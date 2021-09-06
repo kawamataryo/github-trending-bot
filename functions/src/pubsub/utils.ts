@@ -22,7 +22,7 @@ export const tweetRepository = async (
 export const isUpdateTime = (): boolean => {
   const datetime = dayjs();
   return (
-    [0, 3, 6, 9, 12, 15, 18, 21].includes(datetime.hour()) &&
+    datetime.hour() % 2 === 0 &&
     datetime.minute() <= 30
   );
 };
