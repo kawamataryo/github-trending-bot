@@ -3,6 +3,8 @@ import {GHTrendScraper} from "../lib/ghTrendScraper";
 import {bulkInsertTrends} from "../lib/firestore";
 import {shuffle} from "../lib/shuffle";
 import * as admin from "firebase-admin";
+import {tweetAllLanguagesTrends} from "../pubsub/tweetAllLanguagesTrends";
+import {tweetFrontendTrends} from "../pubsub/tweetFrontendTrends";
 
 const db = admin.firestore();
 
@@ -27,6 +29,19 @@ export const scrappingGitHubTrends = functions.https.onRequest(
           jsAndTsCollectionRef,
           shuffle([...jsTrends, ...tsTrends])
       );
+
+      res.send("ok");
+    }
+);
+
+export const tweetGitHubTrends = functions.https.onRequest(
+    async (_req, res) => {
+      try {
+        await tweetAllLanguagesTrends(db);
+        await tweetFrontendTrends(db);
+      } catch (e) {
+        console.error(e);
+      }
 
       res.send("ok");
     }
