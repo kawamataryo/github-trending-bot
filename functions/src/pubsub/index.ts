@@ -1,6 +1,6 @@
 import * as functions from "firebase-functions";
-import { tweetAllLanguagesTrends } from "../usecase/allLanguages";
-import { tweetFrontendTrends } from "../usecase/frontend";
+import { tweetAllLanguagesTrends } from "../core/allLanguages";
+import { tweetFrontendTrends } from "../core/frontend";
 
 export const tweetTrend = functions.pubsub
   .schedule("every 30 minutes")

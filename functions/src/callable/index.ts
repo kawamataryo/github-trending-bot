@@ -2,8 +2,8 @@ import * as functions from "firebase-functions";
 import {
   tweetAllLanguagesTrends,
   updateAllLanguagesTrends,
-} from "../usecase/allLanguages";
-import { tweetFrontendTrends, updateFrontendTrends } from "../usecase/frontend";
+} from "../core/allLanguages";
+import { tweetFrontendTrends, updateFrontendTrends } from "../core/frontend";
 
 export const scrappingGitHubTrends = functions.https.onRequest(
   async (_req, res) => {
