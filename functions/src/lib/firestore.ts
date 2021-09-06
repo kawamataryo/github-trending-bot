@@ -33,15 +33,28 @@ export const bulkInsertTrends = async (
   );
 };
 
-export const getTodaysUntweetedTrend = async (
+export const getUntweetedTrend = async (
     collectionRef: FirebaseFirestore.CollectionReference
 ): Promise<FirebaseFirestore.QuerySnapshot> => {
   const today = dayjs().format("YYYY-MM-DD");
-  return await collectionRef
+
+  const todaysCollection = await collectionRef
       .where("createdDate", "==", today)
       .where("tweeted", "==", false)
       .limit(1)
       .get();
+
+  // FIXME: I need to be more efficient.
+  if (todaysCollection.empty) {
+    const yesterday = dayjs().add(-1, "day").format("YYYY-MM-DD");
+    return await collectionRef
+        .where("createdDate", "==", yesterday)
+        .where("tweeted", "==", false)
+        .limit(1)
+        .get();
+  }
+
+  return todaysCollection;
 };
 
 export const updateTweetedFlag = async (

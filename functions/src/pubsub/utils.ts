@@ -1,4 +1,4 @@
-import {getTodaysUntweetedTrend, updateTweetedFlag} from "../lib/firestore";
+import {getUntweetedTrend, updateTweetedFlag} from "../lib/firestore";
 import {tweetFromTrend} from "../lib/twitter";
 import {GHTrend} from "../types/types";
 import TwitterApi from "twitter-api-v2";
@@ -8,7 +8,7 @@ export const tweetRepository = async (
     collectionRef: FirebaseFirestore.CollectionReference,
     twitterClient: TwitterApi
 ): Promise<void> => {
-  const snapshot = await getTodaysUntweetedTrend(collectionRef);
+  const snapshot = await getUntweetedTrend(collectionRef);
   if (snapshot.empty) {
     console.log("No matching documents.");
     return;
@@ -21,5 +21,8 @@ export const tweetRepository = async (
 
 export const isUpdateTime = (): boolean => {
   const datetime = dayjs();
-  return [0, 6, 12, 18].includes(datetime.hour()) && datetime.minute() <= 30;
+  return (
+    [0, 3, 6, 9, 12, 15, 18, 21].includes(datetime.hour()) &&
+    datetime.minute() <= 30
+  );
 };
