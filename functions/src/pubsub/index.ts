@@ -6,8 +6,7 @@ export const tweetTrend = functions.pubsub
   .schedule("every 30 minutes")
   .onRun(async (_context) => {
     try {
-      await tweetAllLanguagesTrends();
-      await tweetFrontendTrends();
+      await Promise.all([tweetAllLanguagesTrends(), tweetFrontendTrends()]);
     } catch (e) {
       console.error(e);
     }

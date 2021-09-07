@@ -8,8 +8,7 @@ import { tweetFrontendTrends, updateFrontendTrends } from "../core/frontend";
 export const scrappingGitHubTrends = functions.https.onRequest(
   async (_req, res) => {
     try {
-      await updateAllLanguagesTrends();
-      await updateFrontendTrends();
+      await Promise.all([updateAllLanguagesTrends(), updateFrontendTrends()]);
     } catch (e) {
       console.error(e);
       res.send(`error: ${JSON.stringify(e)}`);
@@ -22,8 +21,7 @@ export const scrappingGitHubTrends = functions.https.onRequest(
 export const tweetGitHubTrends = functions.https.onRequest(
   async (_req, res) => {
     try {
-      await tweetAllLanguagesTrends();
-      await tweetFrontendTrends();
+      await Promise.all([tweetAllLanguagesTrends(), tweetFrontendTrends()]);
     } catch (e) {
       console.error(e);
       res.send(`error: ${JSON.stringify(e)}`);
