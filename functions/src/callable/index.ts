@@ -5,8 +5,14 @@ import {
 } from "../core/allLanguages";
 import { tweetFrontendTrends, updateFrontendTrends } from "../core/frontend";
 
-export const scrappingGitHubTrends = functions.https.onRequest(
-  async (_req, res) => {
+const runtimeOpts = {
+  timeoutSeconds: 300,
+  memory: "512MB" as const,
+};
+
+export const scrappingGitHubTrends = functions
+  .runWith(runtimeOpts)
+  .https.onRequest(async (_req, res) => {
     try {
       await Promise.all([updateAllLanguagesTrends(), updateFrontendTrends()]);
     } catch (e) {
@@ -15,11 +21,11 @@ export const scrappingGitHubTrends = functions.https.onRequest(
       return;
     }
     res.send("success");
-  }
-);
+  });
 
-export const tweetGitHubTrends = functions.https.onRequest(
-  async (_req, res) => {
+export const tweetGitHubTrends = functions
+  .runWith(runtimeOpts)
+  .https.onRequest(async (_req, res) => {
     try {
       await Promise.all([tweetAllLanguagesTrends(), tweetFrontendTrends()]);
     } catch (e) {
@@ -28,5 +34,4 @@ export const tweetGitHubTrends = functions.https.onRequest(
       return;
     }
     res.send("success");
-  }
-);
+  });
