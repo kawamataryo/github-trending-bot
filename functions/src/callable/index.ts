@@ -4,6 +4,7 @@ import {
   updateAllLanguagesTrends,
 } from "../core/allLanguages";
 import { tweetFrontendTrends, updateFrontendTrends } from "../core/frontend";
+import { updatePythonTrends, tweetPythonTrends } from "../core/python";
 
 const runtimeOpts = {
   timeoutSeconds: 300,
@@ -14,24 +15,34 @@ export const scrappingGitHubTrends = functions
   .runWith(runtimeOpts)
   .https.onRequest(async (_req, res) => {
     try {
-      await Promise.all([updateAllLanguagesTrends(), updateFrontendTrends()]);
+      await Promise.all([
+        updateAllLanguagesTrends(),
+        updateFrontendTrends(),
+        updatePythonTrends(),
+      ]);
     } catch (e) {
       console.error(e);
       res.send(`error: ${JSON.stringify(e)}`);
       return;
     }
     res.send("success");
-  });
+  }
+);
 
 export const tweetGitHubTrends = functions
   .runWith(runtimeOpts)
   .https.onRequest(async (_req, res) => {
     try {
-      await Promise.all([tweetAllLanguagesTrends(), tweetFrontendTrends()]);
+      await Promise.all([
+        tweetAllLanguagesTrends(),
+        tweetFrontendTrends(),
+        tweetPythonTrends(),
+      ]);
     } catch (e) {
       console.error(e);
       res.send(`error: ${JSON.stringify(e)}`);
       return;
     }
     res.send("success");
-  });
+  }
+);

@@ -3,13 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "workspaces": ["functions"],
+  "workspaces": [
+    "functions"
+  ],
   "scripts": {
-    "lint": "npm run lint -w funcitons",
-    "emulator": "firebase emulators: start",
-    "build": "npm run build -w funcitons",
-    "serve": "npm run serve -w funcitons",
-    "deploy": "npm run deploy -w funcitons"
+    "script:update": "ts-node scripts/updateTrends.ts",
+    "script:tweet": "ts-node scripts/updateTrends.ts"
   },
   "repository": {
     "type": "git",
@@ -22,7 +21,10 @@
   },
   "homepage": "https://github.com/kawamataryo/github_trending_bot#readme",
   "dependencies": {
+    "dotenv": "^10.0.0",
+    "firebase": "^9.0.1",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.2"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }
