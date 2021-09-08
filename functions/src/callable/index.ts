@@ -7,7 +7,7 @@ import { tweetFrontendTrends, updateFrontendTrends } from "../core/frontend";
 import { updatePythonTrends, tweetPythonTrends } from "../core/python";
 
 const runtimeOpts = {
-  timeoutSeconds: 300,
+  timeoutSeconds: 180,
   memory: "512MB" as const,
 };
 
@@ -20,14 +20,14 @@ export const scrappingGitHubTrends = functions
         updateFrontendTrends(),
         updatePythonTrends(),
       ]);
+      console.info("update trends");
     } catch (e) {
       console.error(e);
       res.send(`error: ${JSON.stringify(e)}`);
       return;
     }
     res.send("success");
-  }
-);
+  });
 
 export const tweetGitHubTrends = functions
   .runWith(runtimeOpts)
@@ -44,5 +44,4 @@ export const tweetGitHubTrends = functions
       return;
     }
     res.send("success");
-  }
-);
+  });
