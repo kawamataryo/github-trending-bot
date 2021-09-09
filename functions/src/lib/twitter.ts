@@ -3,12 +3,10 @@ import { GHTrend } from "../types/types";
 import { getUntweetedTrend, updateTweetedFlag } from "./firestore";
 
 const truncateText = (text: string, maxLength: number) => {
-  return text.length > maxLength
-    ? text.substr(0, maxLength) + "..."
-    : text;
+  return text.length > maxLength ? text.substr(0, maxLength) + "..." : text;
 };
 
-const createTweetText = (trend: GHTrend): string => {
+export const createTweetText = (trend: GHTrend): string => {
   const contentText = `
 📦 ${trend.repository}${
     trend.ownersTwitterAccount ? `\n👤 ${trend.ownersTwitterAccount}` : ""
@@ -17,7 +15,7 @@ const createTweetText = (trend: GHTrend): string => {
     trend.language ? `\n🗒 ${trend.language}` : ""
   }
 ${trend.description ? `\n${trend.description}` : ""}
-`.trim()
+`.trim();
 
   // The url will be a 30-character shortened URL, so the content will be truncate to 105 characters.
   return truncateText(contentText, 105) + trend.url;
