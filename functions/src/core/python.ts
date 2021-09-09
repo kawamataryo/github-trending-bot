@@ -26,7 +26,7 @@ export const tweetPythonTrends = async (): Promise<void> => {
   // update trends data at several times a day.
   if (isUpdateTime()) {
     await updatePythonTrends();
-    console.info("Update frontend repositories collections");
+    console.info("Update python repositories collections");
   }
 
   if (dayjs().minute() <= 30) {
