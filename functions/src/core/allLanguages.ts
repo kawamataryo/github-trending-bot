@@ -5,7 +5,6 @@ import { bulkInsertTrends } from "../lib/firestore";
 import { isUpdateTime, shuffle } from "../lib/utils";
 import { tweetRepository } from "../lib/twitter";
 import * as admin from "firebase-admin";
-import * as dayjs from "dayjs";
 
 const twitterClient = new TwitterApi({
   appKey: functions.config().twitter.app_key,
@@ -29,9 +28,6 @@ export const tweetAllLanguagesTrends = async (): Promise<void> => {
     console.info("Update all repositories collections");
   }
 
-  // The all languages trend is to post once an hour because there is little change.
-  if (dayjs().minute() <= 30) {
-    // tweet trends repository with a bot.
-    await tweetRepository(collectionRef, twitterClient);
-  }
+  // tweet trends repository with a bot.
+  await tweetRepository(collectionRef, twitterClient);
 };

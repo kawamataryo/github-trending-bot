@@ -5,7 +5,6 @@ import { bulkInsertTrends } from "../lib/firestore";
 import { isUpdateTime, shuffle } from "../lib/utils";
 import { tweetRepository } from "../lib/twitter";
 import * as admin from "firebase-admin";
-import * as dayjs from "dayjs";
 
 const twitterClient = new TwitterApi({
   appKey: functions.config().twitter.frontend_app_key,
@@ -31,7 +30,5 @@ export const tweetFrontendTrends = async (): Promise<void> => {
   }
 
   // tweet trends repository with a bot
-  if (dayjs().minute() <= 30) {
-    await tweetRepository(collectionRef, twitterClient);
-  }
+  await tweetRepository(collectionRef, twitterClient);
 };

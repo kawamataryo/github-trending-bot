@@ -117,3 +117,4 @@ dist
 .pnp.*
 
 .runtimeconfig.json
+service-account.json
