@@ -4,9 +4,9 @@ import { GHTrend } from "../types/types";
 const getTrendDataWithinOneWeek = async (
   collectionRef: FirebaseFirestore.CollectionReference
 ): Promise<GHTrend[]> => {
-  const oneWeekAgo = dayjs().add(-7, "day").unix();
+  const twoWeekAgo = dayjs().add(-14, "day").unix();
   const querySnapshotFromOneWeekAgo = await collectionRef
-    .where("createdAt", ">=", oneWeekAgo)
+    .where("createdAt", ">=", twoWeekAgo)
     .get();
   return querySnapshotFromOneWeekAgo.docs.map((doc) => doc.data() as GHTrend);
 };
