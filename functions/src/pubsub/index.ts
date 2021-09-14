@@ -10,7 +10,7 @@ const runtimeOpts = {
 
 export const tweetTrend = functions
   .runWith(runtimeOpts)
-  .pubsub.schedule("every 30 minutes")
+  .pubsub.schedule("every 1 hours")
   .onRun(async (_context) => {
     try {
       await Promise.all([
