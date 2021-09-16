@@ -8,5 +8,8 @@
     "strict": true,
     "target": "es2017"
   },
-  "compileOnSave": true
+  "compileOnSave": true,
+  "include": [
+    "src"
+  ]
 }

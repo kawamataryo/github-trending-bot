@@ -1,7 +1,7 @@
 import * as dayjs from "dayjs";
 import { GHTrend } from "../types/types";
 
-const getTrendDataWithinOneWeek = async (
+const getTrendDataWithinTwoWeek = async (
   collectionRef: FirebaseFirestore.CollectionReference
 ): Promise<GHTrend[]> => {
   const twoWeekAgo = dayjs().add(-14, "day").unix();
@@ -15,7 +15,7 @@ export const bulkInsertTrends = async (
   collectionRef: FirebaseFirestore.CollectionReference,
   trends: GHTrend[]
 ): Promise<void> => {
-  const trendsFromOneWeekAgo = await getTrendDataWithinOneWeek(collectionRef);
+  const trendsFromOneWeekAgo = await getTrendDataWithinTwoWeek(collectionRef);
 
   await Promise.all(
     trends.map(async (trend) => {

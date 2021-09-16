@@ -1,4 +1,4 @@
-import { createTweetText } from "../../src/lib/twitter"
+import { createTweetText } from "../../functions/src/lib/twitter";
 
 describe("createTweetText", () => {
   it("truncate ", () => {
