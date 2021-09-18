@@ -5,6 +5,7 @@ import {
 } from "../core/allLanguages";
 import { tweetFrontendTrends, updateFrontendTrends } from "../core/frontend";
 import { updatePythonTrends, tweetPythonTrends } from "../core/python";
+import { tweetRubyTrends, updateRubyTrends } from "../core/ruby";
 
 const runtimeOpts = {
   timeoutSeconds: 180,
@@ -19,6 +20,7 @@ export const scrappingGitHubTrends = functions
         updateAllLanguagesTrends(),
         updateFrontendTrends(),
         updatePythonTrends(),
+        updateRubyTrends(),
       ]);
       console.info("update trends");
     } catch (e) {
@@ -37,6 +39,7 @@ export const tweetGitHubTrends = functions
         tweetAllLanguagesTrends(),
         tweetFrontendTrends(),
         tweetPythonTrends(),
+        tweetRubyTrends(),
       ]);
     } catch (e) {
       console.error(e);

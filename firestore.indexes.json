@@ -41,6 +41,20 @@
           "order": "ASCENDING"
         }
       ]
+    },
+    {
+      "collectionGroup": "ruby",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "tweeted",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "ASCENDING"
+        }
+      ]
     }
   ],
   "fieldOverrides": []
