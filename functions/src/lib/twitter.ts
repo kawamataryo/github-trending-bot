@@ -18,7 +18,7 @@ ${trend.description ? `\n${trend.description}` : ""}
 `.trim();
 
   // The url will be a 30-character shortened URL, so the content will be truncate to 105 characters.
-  return truncateText(contentText, 105) + `\n${trend.url}`;
+  return truncateText(contentText, 103) + `\n${trend.url}`;
 };
 
 const tweetFromTrend = async (

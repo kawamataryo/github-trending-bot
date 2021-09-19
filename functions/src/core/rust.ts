@@ -7,25 +7,25 @@ import { tweetRepository } from "../lib/twitter";
 import * as admin from "firebase-admin";
 
 const twitterClient = new TwitterApi({
-  appKey: functions.config().twitter.ruby_app_key,
-  appSecret: functions.config().twitter.ruby_app_secret,
-  accessToken: functions.config().twitter.ruby_access_token,
-  accessSecret: functions.config().twitter.ruby_access_secret,
+  appKey: functions.config().twitter.rust_app_key,
+  appSecret: functions.config().twitter.rust_app_secret,
+  accessToken: functions.config().twitter.rust_access_token,
+  accessSecret: functions.config().twitter.rust_access_secret,
 });
 
 const db = admin.firestore();
-const collectionRef = db.collection("v1").doc("trends").collection("ruby");
+const collectionRef = db.collection("v1").doc("trends").collection("rust");
 
-export const updateRubyTrends = async (): Promise<void> => {
-  const trends = await GHTrendScraper.scraping("/ruby");
+export const updateRustTrends = async (): Promise<void> => {
+  const trends = await GHTrendScraper.scraping("/rust");
   await bulkInsertTrends(collectionRef, shuffle(trends));
 };
 
-export const tweetRubyTrends = async (): Promise<void> => {
+export const tweetRustTrends = async (): Promise<void> => {
   // update trends data at several times a day.
   if (isUpdateTime()) {
-    await updateRubyTrends();
-    console.info("Update ruby repositories collections");
+    await updateRustTrends();
+    console.info("Update rust repositories collections");
   }
 
   // tweet trends repository with a bot
