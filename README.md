@@ -13,7 +13,7 @@ A Twitter bot to tweet [trending repositories](https://github.com/trending) from
 
 |[@gh_trending_py](https://twitter.com/gh_trending_py)|[@gh_trending_rs](https://twitter.com/gh_trending_rs)|
 |---|---|
-|<a href="https://twitter.com/gh_trending_py"><img width="597" alt="github trending python" src="https://i.gyazo.com/4f76a7358a0822d3219a51b8c14962ad.png"></a>|<a href="https://twitter.com/gh_trending_rb"><img width="600" alt="github trending rust" src="https://i.gyazo.com/42b4a9e35cb6f51fdd8c089c44543b96.png"></a>|
+|<a href="https://twitter.com/gh_trending_py"><img width="597" alt="github trending python" src="https://i.gyazo.com/4f76a7358a0822d3219a51b8c14962ad.png"></a>|<a href="https://twitter.com/gh_trending_rs"><img width="600" alt="github trending rust" src="https://i.gyazo.com/42b4a9e35cb6f51fdd8c089c44543b96.png"></a>|
 ## ✨ Features
 
 - Crawl [GitHub Trending](https://github.com/trending) daily to get repository information.
