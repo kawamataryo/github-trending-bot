@@ -4,7 +4,7 @@ import {
   updateAllLanguagesTrends,
 } from "../core/allLanguages";
 import { tweetFrontendTrends, updateFrontendTrends } from "../core/frontend";
-import { updatePythonTrends, tweetPythonTrends } from "../core/python";
+import { tweetPythonTrends, updatePythonTrends } from "../core/python";
 import { tweetRustTrends, updateRustTrends } from "../core/rust";
 
 const runtimeOpts = {
@@ -15,36 +15,37 @@ const runtimeOpts = {
 export const scrappingGitHubTrends = functions
   .runWith(runtimeOpts)
   .https.onRequest(async (_req, res) => {
-    try {
-      await Promise.all([
-        updateAllLanguagesTrends(),
-        updateFrontendTrends(),
-        updatePythonTrends(),
-        updateRustTrends(),
-      ]);
-      console.info("update trends");
-    } catch (e) {
+    const errorHandler = (e: unknown, type: string) => {
+      console.error(`${type} tweet scrapping error`);
       console.error(e);
-      res.send(`error: ${JSON.stringify(e)}`);
-      return;
-    }
+    };
+
+    // NOTE: Run in series to prevent stop in case of rejects
+    await updateAllLanguagesTrends().catch((e) =>
+      errorHandler(e, "All languages")
+    );
+    await updateFrontendTrends().catch((e) => errorHandler(e, "JS & TS"));
+    await updatePythonTrends().catch((e) => errorHandler(e, "Python"));
+    await updateRustTrends().catch((e) => errorHandler(e, "Rust"));
+
     res.send("success");
   });
 
 export const tweetGitHubTrends = functions
   .runWith(runtimeOpts)
   .https.onRequest(async (_req, res) => {
-    try {
-      await Promise.all([
-        tweetAllLanguagesTrends(),
-        tweetFrontendTrends(),
-        tweetPythonTrends(),
-        tweetRustTrends(),
-      ]);
-    } catch (e) {
+    const errorHandler = (e: unknown, type: string) => {
+      console.error(`${type} tweet error`);
       console.error(e);
-      res.send(`error: ${JSON.stringify(e)}`);
-      return;
-    }
+    };
+
+    // NOTE: Run in series to prevent stop in case of rejects
+    await tweetAllLanguagesTrends().catch((e) =>
+      errorHandler(e, "All languages")
+    );
+    await tweetFrontendTrends().catch((e) => errorHandler(e, "JS & TS"));
+    await tweetPythonTrends().catch((e) => errorHandler(e, "Python"));
+    await tweetRustTrends().catch((e) => errorHandler(e, "Rust"));
+
     res.send("success");
   });
