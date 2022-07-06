@@ -35,18 +35,18 @@ const initializeData = () => {
   prisma.language.deleteMany({});
 };
 
-const selectOrCreateOwner = async (args: {
+const selectOrCreateOwner = async (params: {
   name: string;
   twitterAccount?: string;
 }) => {
-  const result = await prisma.owner.findUnique({ where: { name: args.name } });
+  const result = await prisma.owner.findUnique({ where: { name: params.name } });
   if (result) {
     return result;
   }
   return await prisma.owner.create({
     data: {
-      name: args.name,
-      twitter_account: args.twitterAccount,
+      name: params.name,
+      twitter_account: params.twitterAccount,
     },
   });
 };
@@ -59,7 +59,7 @@ const selectOrCreateLanguage = async (name: string) => {
   return await prisma.language.create({ data: { name } });
 };
 
-const selectOrCreateRepository = async (args: {
+const selectOrCreateRepository = async (params: {
   name: string;
   description: string;
   url: string;
@@ -67,23 +67,23 @@ const selectOrCreateRepository = async (args: {
   languageId: number;
 }) => {
   const result = await prisma.repository.findUnique({
-    where: { url: args.url },
+    where: { url: params.url },
   });
   if (result) {
     return result;
   }
   return await prisma.repository.create({
     data: {
-      name: args.name,
-      description: args.description,
-      url: args.url,
-      owner_id: args.ownerId,
-      language_id: args.languageId,
+      name: params.name,
+      description: params.description,
+      url: params.url,
+      owner_id: params.ownerId,
+      language_id: params.languageId,
     },
   });
 };
 
-const createTrendLog = async (args: {
+const createTrendLog = async (params: {
   repositoryId: number;
   starCount: number;
   forkCount: number;
@@ -92,11 +92,11 @@ const createTrendLog = async (args: {
 }) => {
   return await prisma.trend_log.create({
     data: {
-      repository_id: args.repositoryId,
-      star_count: args.starCount,
-      fork_count: args.forkCount,
-      created_unix_time: args.timestamp,
-      today_star_count: args.todayStarCount,
+      repository_id: params.repositoryId,
+      star_count: params.starCount,
+      fork_count: params.forkCount,
+      created_unix_time: params.timestamp,
+      today_star_count: params.todayStarCount,
     },
   });
 };
