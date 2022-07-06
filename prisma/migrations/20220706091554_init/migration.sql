@@ -25,7 +25,7 @@ CREATE TABLE "owner" (
 
 -- CreateTable
 CREATE TABLE "trend_log" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id" TEXT NOT NULL PRIMARY KEY,
     "repository_id" INTEGER NOT NULL,
     "star_count" INTEGER NOT NULL,
     "fork_count" INTEGER NOT NULL,

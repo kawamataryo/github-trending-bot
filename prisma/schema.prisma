@@ -39,7 +39,7 @@ model owner {
 }
 
 model trend_log {
-  id Int @id @default(autoincrement())
+  id String @id
   repository_id Int
   star_count Int
   fork_count Int

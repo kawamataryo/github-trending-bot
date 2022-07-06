@@ -9,7 +9,7 @@
   "scripts": {
     "script:update": "ts-node scripts/updateTrends.ts",
     "script:tweet": "ts-node scripts/updateTrends.ts",
-    "admin:dumpData": "ts-node admin/dumpToSqlite.ts"
+    "admin:dumpData": "ts-node --files admin/dumpData.ts"
   },
   "repository": {
     "type": "git",
