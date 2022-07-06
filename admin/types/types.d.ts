@@ -13,4 +13,4 @@ type Trend = {
   owner: string;
 };
 
-type CollectionName = "all" | "frontend" | "python" | "rust";
+type TrendType = "all" | "frontend" | "python" | "rust";

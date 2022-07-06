@@ -12,11 +12,9 @@ model repository {
   description String?
   name String
   url String
-  language_id Int
   owner_id Int
   trend_log trend_log[]
 
-  language language @relation(fields: [language_id], references: [id])
   owner owner @relation(fields: [owner_id], references: [id])
   @@unique([url])
 }
@@ -25,7 +23,7 @@ model language {
   id Int @id @default(autoincrement())
   name String
 
-  repositories repository[]
+  trend_log trend_log[]
   @@unique([name])
 }
 
@@ -41,10 +39,22 @@ model owner {
 model trend_log {
   id String @id
   repository_id Int
+  trend_type_id Int
   star_count Int
   fork_count Int
   today_star_count Int
   created_unix_time Int
+  language_id Int
 
+  language language @relation(fields: [language_id], references: [id])
   repository repository @relation(fields: [repository_id], references: [id])
+  trend_type trend_type @relation(fields: [trend_type_id], references: [id])
+}
+
+model trend_type {
+  id Int @id @default(autoincrement())
+  name String
+
+  trend_logs trend_log[]
+  @@unique([name])
 }

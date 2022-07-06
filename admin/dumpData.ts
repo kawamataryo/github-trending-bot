@@ -9,15 +9,17 @@ import {
   selectOrCreateLanguage,
   selectOrCreateOwner,
   selectOrCreateRepository,
+  selectOrCreateTrendType,
 } from "./repositories/prisma";
 import { toNumber } from "./lib/toNumber";
 import { getDocuments } from "./repositories/firestore";
+import { TREND_TYPE_LIST } from "./lib/constants";
 
-const dumpDataToSqliteFromFirestore = async (
-  db: admin.firestore.Firestore,
-  client: PrismaClient
+const dumpDataToSqlite = async (
+  documents: Trend[],
+  client: PrismaClient,
+  trendType: TrendType
 ) => {
-  const documents = await getDocuments(db, "all");
 
   for (const d of documents) {
     if (
@@ -28,27 +30,31 @@ const dumpDataToSqliteFromFirestore = async (
       continue;
     }
 
-    const owner = await selectOrCreateOwner(client, {
+    const trendTypeResult = await selectOrCreateTrendType(client, {
+      name: trendType,
+    });
+    const ownerResult = await selectOrCreateOwner(client, {
       name: d.owner,
       twitterAccount: d.ownersTwitterAccount,
     });
-    const language = await selectOrCreateLanguage(client, {
+    const languageResult = await selectOrCreateLanguage(client, {
       name: d.language || "",
     });
-    const repository = await selectOrCreateRepository(client, {
+    const repositoryResult = await selectOrCreateRepository(client, {
       name: d.repository,
       description: d.description,
-      ownerId: owner.id,
-      languageId: language.id,
+      ownerId: ownerResult.id,
       url: d.url,
     });
     await createTrendLog(client, {
       id: d.id,
-      repositoryId: repository.id,
+      repositoryId: repositoryResult.id,
       starCount: toNumber(d.starCount),
       forkCount: toNumber(d.forkCount),
       todayStarCount: toNumber(d.todayStarCount),
       timestamp: d.createdAt,
+      trendTypeId: trendTypeResult.id,
+      languageId: languageResult.id,
     });
   }
 };
@@ -62,8 +68,14 @@ const main = async () => {
   const client = new PrismaClient();
 
   try {
-    initializeData(client);
-    dumpDataToSqliteFromFirestore(db, client);
+    for (const trendType of TREND_TYPE_LIST) {
+      console.log(`get ${trendType} documents from firestore...`);
+      const documents = await getDocuments(db, trendType);
+
+      console.log(`dump ${documents.length} documents to sqlite...`);
+      await dumpDataToSqlite(documents, client, trendType as TrendType);
+    }
+    console.log("\ncompleted ✨");
   } finally {
     client.$disconnect();
   }

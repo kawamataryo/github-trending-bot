@@ -50,7 +50,6 @@ export const selectOrCreateRepository = async (
     description: string;
     url: string;
     ownerId: number;
-    languageId: number;
   }
 ) => {
   const result = await client.repository.findUnique({
@@ -66,7 +65,26 @@ export const selectOrCreateRepository = async (
       description: params.description,
       url: params.url,
       owner_id: params.ownerId,
-      language_id: params.languageId,
+    },
+  });
+};
+
+export const selectOrCreateTrendType = async (
+  client: PrismaClient,
+  params: {
+    name: string;
+  }
+) => {
+  const result = await client.trend_type.findUnique({
+    where: { name: params.name },
+  });
+  if (result) {
+    return result;
+  }
+
+  return await client.trend_type.create({
+    data: {
+      name: params.name,
     },
   });
 };
@@ -98,6 +116,8 @@ export const createTrendLog = async (
     forkCount: number;
     todayStarCount: number;
     timestamp: number;
+    trendTypeId: number;
+    languageId: number
   }
 ) => {
   return await client.trend_log.create({
@@ -108,6 +128,8 @@ export const createTrendLog = async (
       fork_count: params.forkCount,
       created_unix_time: params.timestamp,
       today_star_count: params.todayStarCount,
+      trend_type_id: params.trendTypeId,
+      language_id: params.languageId,
     },
   });
 };

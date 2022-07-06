@@ -1,0 +1,1 @@
+export const TREND_TYPE_LIST: TrendType[] = ["all", "frontend", "rust", "python"];
